@@ -1,18 +1,14 @@
 import "./App.css";
 import { Component } from "react";
 import { CardList } from "./components/card-list/card-list.component";
-import { SearchBox } from "./components/search-box/search-box.component";
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       monsters: [],
-      searchField: "",
+      searcField: "",
     };
-
-    // define our function && bound function
-    // this.handleChange = this.handleChange.bind(this)
   }
 
   // mount is when reacts piuts the component on the page
@@ -21,17 +17,7 @@ class App extends Component {
     fetch("https://jsonplaceholder.typicode.com/users")
       .then((response) => response.json())
       .then((users) => this.setState({ monsters: users }));
-  };
-
-  // handleChange(e) {
-  //   this.setState({ searchField: e.target.value })
-  // };
-  
-  // no need to define and bind w/ big arrow functions
-  handleChange = (e) => {
-    this.setState({ searchField: e.target.value })
-  };
-
+  }
 
   render() {
     // we don't modify original state - so we destructure and set state to new consts
@@ -42,13 +28,12 @@ class App extends Component {
 
     return (
       <div className="App">
-        <h1>Monster Rolodex</h1>
-        <SearchBox
+        <input
+          type="search"
           placeholder="search monsters"
-          // handleChange={(e) => this.setState({ searchField: e.target.value })}
-          handleChange={this.handleChange}
+          onChange={(e) => this.setState({ searchField: e.target.value })}
         />
-        <CardList monsters={filteredMonsters} />
+        <CardList monsters={this.state.monsters} />
       </div>
     );
   }
